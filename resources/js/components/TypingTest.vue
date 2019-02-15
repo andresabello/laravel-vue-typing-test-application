@@ -35,6 +35,7 @@
         data () {
             return {
                 typedWord: '',
+                submitted: false,
                 wordData: {
                     seconds: 60,
                     correct: 0,
@@ -258,18 +259,22 @@
                     wpmClass.add('incorrect-word-c')
                 }
 
-                window.axios.post('/submit-test', {
-                    words_per_minute: wpm,
-                    accuracy: accuracy,
-                    total_words: total,
-                    correct_words: correct,
-                    incorrect_words: incorrect,
-                    characters_typed: typed,
-                }).then((response) => {
-                    console.log(response)
-                }).catch((response) => {
-                    console.log(response)
-                })
+                if (!this.submitted) {
+                    window.axios.post('/submit-test', {
+                        words_per_minute: wpm,
+                        accuracy: accuracy,
+                        total_words: total,
+                        correct_words: correct,
+                        incorrect_words: incorrect,
+                        characters_typed: typed,
+                    }).then((response) => {
+                        console.log(response)
+                        this.submitted = true
+                    }).catch((response) => {
+                        console.log(response)
+                    })
+
+                }
             },
             restartTest () {
                 this.typedWord = ''

@@ -1799,6 +1799,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       typedWord: '',
+      submitted: false,
       wordData: {
         seconds: 60,
         correct: 0,
@@ -1945,6 +1946,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     calculateWPM: function calculateWPM() {
+      var _this2 = this;
+
       var _this$wordData = this.wordData,
           seconds = _this$wordData.seconds,
           correct = _this$wordData.correct,
@@ -1968,18 +1971,21 @@ __webpack_require__.r(__webpack_exports__);
         wpmClass.add('incorrect-word-c');
       }
 
-      window.axios.post('/submit-test', {
-        words_per_minute: wpm,
-        accuracy: accuracy,
-        total_words: total,
-        correct_words: correct,
-        incorrect_words: incorrect,
-        characters_typed: typed
-      }).then(function (response) {
-        console.log(response);
-      }).catch(function (response) {
-        console.log(response);
-      });
+      if (!this.submitted) {
+        window.axios.post('/submit-test', {
+          words_per_minute: wpm,
+          accuracy: accuracy,
+          total_words: total,
+          correct_words: correct,
+          incorrect_words: incorrect,
+          characters_typed: typed
+        }).then(function (response) {
+          console.log(response);
+          _this2.submitted = true;
+        }).catch(function (response) {
+          console.log(response);
+        });
+      }
     },
     restartTest: function restartTest() {
       this.typedWord = '';
