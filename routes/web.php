@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('typing-test');
 });
+
+
+Route::get('/backend', function () {
+
+    return view('backend', [
+        'tests' => \App\TypingTest::paginate(25)
+    ]);
+});
+
+Route::post('submit-test', 'TypingTestController@submit');

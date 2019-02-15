@@ -110,9 +110,7 @@
                 ],
             }
         },
-        computed: {
-
-        },
+        computed: {},
         mounted () {
             this.addWords()
         },
@@ -253,17 +251,30 @@
                     </li>
                 </ul>`
 
-                let wpmClass = document.querySelector('.wpm-accuracy')[0].classList
+                let wpmClass = document.getElementsByClassName('wpm-accuracy')[0].classList
                 if (accuracy > 80) {
                     wpmClass.add('correct-word-c')
                 } else {
                     wpmClass.add('incorrect-word-c')
                 }
+
+                window.axios.post('/submit-test', {
+                    words_per_minute: wpm,
+                    accuracy: accuracy,
+                    total_words: total,
+                    correct_words: correct,
+                    incorrect_words: incorrect,
+                    characters_typed: typed,
+                }).then((response) => {
+                    console.log(response)
+                }).catch((response) => {
+                    console.log(response)
+                })
             },
-            restartTest() {
-                this.typedWord = "";
-                location.reload();
-            }
+            restartTest () {
+                this.typedWord = ''
+                location.reload()
+            },
         },
     }
 </script>

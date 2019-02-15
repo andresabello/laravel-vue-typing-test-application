@@ -1960,16 +1960,29 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       document.getElementById('word-section').innerHTML = "<ul id=\"results\">\n                <li>WPM: <span class=\"wpm-value\">".concat(wpm, "</span></li>\n                <li>Accuracy: <span class=\"wpm-accuracy\">").concat(accuracy, "%</span></li>\n                <li id=\"results-stats\">\n                    Total Words: <span>").concat(total, "</span> |\n                    Correct Words: <span>").concat(correct, "</span> |\n                    Incorrect Words: <span>").concat(incorrect, "</span> |\n                    Characters Typed: <span>").concat(typed, "</span>\n                </li>\n            </ul>");
-      var wpmClass = document.querySelector('.wpm-accuracy')[0].classList;
+      var wpmClass = document.getElementsByClassName('wpm-accuracy')[0].classList;
 
       if (accuracy > 80) {
         wpmClass.add('correct-word-c');
       } else {
         wpmClass.add('incorrect-word-c');
       }
+
+      window.axios.post('/submit-test', {
+        words_per_minute: wpm,
+        accuracy: accuracy,
+        total_words: total,
+        correct_words: correct,
+        incorrect_words: incorrect,
+        characters_typed: typed
+      }).then(function (response) {
+        console.log(response);
+      }).catch(function (response) {
+        console.log(response);
+      });
     },
     restartTest: function restartTest() {
-      this.typedWord = "";
+      this.typedWord = '';
       location.reload();
     }
   }
