@@ -118,7 +118,6 @@
 
         methods: {
             typingTest (e) {
-                // console.log(e)
                 // Char:        Key Code:
                 // <space>      32
                 // <backspace>  8
